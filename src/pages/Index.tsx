@@ -12,3 +12,9 @@ const Index = () => {
 };
 
 export default Index;
+
+import { Link } from "react-router-dom";
+
+<Link to="/game">
+  Играть
+</Link>
