@@ -1,49 +1,65 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap');
-
-@layer base {
-  :root {
-    --background: 240 10% 3%;
-    --foreground: 60 10% 95%;
-    --primary: 160 80% 55%;
-    --primary-foreground: 240 10% 3%;
-    --secondary: 240 6% 10%;
-    --secondary-foreground: 60 10% 95%;
-    --muted: 240 5% 15%;
-    --muted-foreground: 240 5% 55%;
-    --accent: 160 80% 55%;
-    --accent-foreground: 240 10% 3%;
-    --card: 240 8% 6%;
-    --card-foreground: 60 10% 95%;
-    --popover: 240 8% 6%;
-    --popover-foreground: 60 10% 95%;
-    --border: 240 5% 15%;
-    --input: 240 5% 15%;
-    --ring: 160 80% 55%;
-    --radius: 0.75rem;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
-    --font-display: 'Space Grotesk', sans-serif;
-    --sidebar-background: 240 8% 6%;
-    --sidebar-foreground: 60 10% 95%;
-    --sidebar-primary: 160 80% 55%;
-    --sidebar-primary-foreground: 240 10% 3%;
-    --sidebar-accent: 240 5% 15%;
-    --sidebar-accent-foreground: 60 10% 95%;
-    --sidebar-border: 240 5% 15%;
-    --sidebar-ring: 160 80% 55%;
-  }
+@theme {
+  --font-gothic: "MedievalSharp", cursive;
+  --font-serif: "Cormorant Garamond", serif;
+  
+  --color-sepia: #704214;
+  --color-gold: #C9A343;
+  --color-ink: #1E1B18;
+  --color-ash: #D8CFC4;
+  --color-parchment: #F5F2ED;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-family: var(--font-display);
-  }
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(112, 66, 20, 0.4) rgba(112, 66, 20, 0.1);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(112, 66, 20, 0.1);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(112, 66, 20, 0.4);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 163, 67, 0.6);
+}
+
+body {
+  @apply bg-parchment text-ink font-serif overflow-x-hidden;
+  background-image: url('https://www.transparenttextures.com/patterns/parchment.png');
+}
+
+h1, h2, h3, h4 {
+  @apply font-gothic;
+}
+
+.parchment-card {
+  @apply border-2 shadow-lg relative overflow-hidden;
+  border-color: var(--card-border, rgba(112, 66, 20, 0.3));
+  background-color: var(--card-bg, #F5F2ED);
+  background-image: url('https://www.transparenttextures.com/patterns/parchment.png');
+}
+
+.gold-glow {
+  box-shadow: 0 0 15px rgba(201, 163, 67, 0.4);
+}
+
+@keyframes swirl {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-swirl {
+  animation: swirl 10s linear infinite;
 }
