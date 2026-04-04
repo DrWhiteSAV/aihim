@@ -1,15 +1,39 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
 
-@theme {
-  --font-gothic: "MedievalSharp", cursive;
-  --font-serif: "Cormorant Garamond", serif;
+:root {
+  --background: 30 20% 95%;
+  --foreground: 30 10% 10%;
+  --card: 30 20% 96%;
+  --card-foreground: 30 10% 10%;
+  --popover: 30 20% 96%;
+  --popover-foreground: 30 10% 10%;
+  --primary: 30 60% 30%;
+  --primary-foreground: 30 20% 95%;
+  --secondary: 30 15% 85%;
+  --secondary-foreground: 30 10% 10%;
+  --muted: 30 15% 85%;
+  --muted-foreground: 30 10% 40%;
+  --accent: 42 55% 52%;
+  --accent-foreground: 30 10% 10%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 30 20% 75%;
+  --input: 30 20% 75%;
+  --ring: 42 55% 52%;
+  --radius: 0.5rem;
   
-  --color-sepia: #704214;
-  --color-gold: #C9A343;
-  --color-ink: #1E1B18;
-  --color-ash: #D8CFC4;
-  --color-parchment: #F5F2ED;
+  --sidebar-background: 30 20% 93%;
+  --sidebar-foreground: 30 10% 10%;
+  --sidebar-primary: 30 60% 30%;
+  --sidebar-primary-foreground: 30 20% 95%;
+  --sidebar-accent: 42 55% 52%;
+  --sidebar-accent-foreground: 30 10% 10%;
+  --sidebar-border: 30 20% 75%;
+  --sidebar-ring: 42 55% 52%;
 }
 
 .custom-scrollbar {
