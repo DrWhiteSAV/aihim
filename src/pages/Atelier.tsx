@@ -18,7 +18,6 @@ import {
   useDroppable,
   DragOverlay,
   DragStartEvent,
-  defaultDropAnimationSideEffects
 } from '@dnd-kit/core';
 import {
   arrayMove,
