@@ -18,7 +18,6 @@ import {
   useDroppable,
   DragOverlay,
   DragStartEvent,
-  defaultDropAnimationSideEffects
 } from '@dnd-kit/core';
 import {
   arrayMove,
@@ -609,15 +608,7 @@ export const Atelier: React.FC<AtelierProps> = ({
           </div>
         </div>
 
-        <DragOverlay dropAnimation={{
-          sideEffects: defaultDropAnimationSideEffects({
-            styles: {
-              active: {
-                opacity: '0.5',
-              },
-            },
-          }),
-        }}>
+        <DragOverlay>
           {activeElement ? (
             <div className="relative">
               <ElementCard 
