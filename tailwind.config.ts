@@ -12,8 +12,17 @@ export default {
         "2xl": "1400px",
       },
     },
+    fontFamily: {
+      gothic: ['"MedievalSharp"', 'cursive'],
+      serif: ['"Cormorant Garamond"', 'serif'],
+    },
     extend: {
       colors: {
+        sepia: '#704214',
+        gold: '#C9A343',
+        ink: '#1E1B18',
+        ash: '#D8CFC4',
+        parchment: '#F5F2ED',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
