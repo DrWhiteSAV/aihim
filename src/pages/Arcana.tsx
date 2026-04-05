@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { AlchemyElement, Rarity } from '../types';
-import { Sparkles, Zap, Shield, Eye, Globe, Thermometer, Contrast, Leaf, Hourglass, X, Info, ExternalLink, Youtube, Send, MessageSquare } from 'lucide-react';
+import { Sparkles, Zap, Shield, Eye, Globe, Thermometer, Contrast, Leaf, Hourglass, X, Info, ExternalLink, Youtube, Send, MessageSquare, AlertCircle } from 'lucide-react';
 import { REALITY_LAYERS, HIDDEN_LAWS, calculateRank, INITIAL_ELEMENTS, RANKS, RARITY_DETAILS, RARITY_COLORS, ELEMENT_TYPE_DETAILS, ESSENCE_DETAILS, translateEssence, RARITY_ORDER, calculateRarityChances } from '../constants';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
