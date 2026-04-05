@@ -158,7 +158,7 @@ export const INITIAL_ELEMENTS: AlchemyElement[] = [
     name: 'Кристалл',
     description: 'Порядок, застывший во времени. Он преломляет свет и хранит древние воспоминания.',
     icon: '💎',
-    rarity: 'Обычный',
+    rarity: 'Редкий',
     type: 'Материя',
     state: 'Твердое',
     complexity: 1,
