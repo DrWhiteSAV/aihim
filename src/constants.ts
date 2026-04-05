@@ -126,7 +126,7 @@ export const INITIAL_ELEMENTS: AlchemyElement[] = [
     name: 'Металл',
     description: 'Кости земли, очищенные жаром. Прочный и резонирующий.',
     icon: '🛡️',
-    rarity: 'Обычный',
+    rarity: 'Редкий',
     type: 'Материя',
     state: 'Твердое',
     complexity: 1,
