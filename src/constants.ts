@@ -142,7 +142,7 @@ export const INITIAL_ELEMENTS: AlchemyElement[] = [
     name: 'Энергия',
     description: 'Чистая сила, движущая материю. Ее нельзя создать или уничтожить, только изменить.',
     icon: '⚡',
-    rarity: 'Обычный',
+    rarity: 'Редкий',
     type: 'Энергия',
     state: 'Эфир',
     complexity: 1,
