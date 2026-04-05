@@ -48,6 +48,8 @@ export const Arcana: React.FC<ArcanaProps> = ({ onReset, elements, aihim, setAih
 
   const { currentRank, nextRank, progressToNextRank } = calculateRank(totalElements);
   const [showRankTooltip, setShowRankTooltip] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [showFixConfirm, setShowFixConfirm] = useState(false);
 
   return (
     <motion.div
