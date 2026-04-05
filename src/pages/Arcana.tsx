@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { AlchemyElement, Rarity } from '../types';
-import { Sparkles, Zap, Shield, Eye, Globe, Thermometer, Contrast, Leaf, Hourglass, X, Info, ExternalLink, Youtube, Send, MessageSquare } from 'lucide-react';
+import { Sparkles, Zap, Shield, Eye, Globe, Thermometer, Contrast, Leaf, Hourglass, X, Info, ExternalLink, Youtube, Send, MessageSquare, AlertCircle } from 'lucide-react';
 import { REALITY_LAYERS, HIDDEN_LAWS, calculateRank, INITIAL_ELEMENTS, RANKS, RARITY_DETAILS, RARITY_COLORS, ELEMENT_TYPE_DETAILS, ESSENCE_DETAILS, translateEssence, RARITY_ORDER, calculateRarityChances } from '../constants';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -48,6 +48,8 @@ export const Arcana: React.FC<ArcanaProps> = ({ onReset, elements, aihim, setAih
 
   const { currentRank, nextRank, progressToNextRank } = calculateRank(totalElements);
   const [showRankTooltip, setShowRankTooltip] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [showFixConfirm, setShowFixConfirm] = useState(false);
 
   return (
     <motion.div
@@ -702,29 +704,163 @@ export const Arcana: React.FC<ArcanaProps> = ({ onReset, elements, aihim, setAih
         <div className="pt-8 border-t border-sepia/10">
           <h3 className="font-gothic text-xl tracking-widest text-red-900/60 uppercase text-center mb-6">Опасные Манипуляции</h3>
           <div className="max-w-xs mx-auto space-y-4">
-            <button 
-              onClick={() => {
-                onReset();
-                window.location.reload();
-              }}
-              className="w-full py-3 border border-red-900/30 text-red-900 hover:bg-red-900/10 transition-all rounded font-bold uppercase tracking-widest text-xs"
-            >
-              Сбросить Вселенную
-            </button>
+            <div className="space-y-2">
+              <button 
+                onClick={() => setShowResetConfirm(true)}
+                className="w-full py-3 border border-red-900/30 text-red-900 hover:bg-red-900/10 transition-all rounded font-bold uppercase tracking-widest text-xs"
+              >
+                Сбросить Вселенную
+              </button>
+              <p className="text-[9px] text-sepia/50 italic text-center leading-relaxed">
+                ⚠️ Полное уничтожение всех открытых элементов, истории и прогресса. Вы начнёте игру с самого начала — с базовыми элементами и стартовым балансом AiHim. Используйте, если хотите начать с чистого листа.
+              </p>
+            </div>
             
-            <button 
-              onClick={() => {
-                localStorage.removeItem('aihim_is_combining');
-                window.location.reload();
-              }}
-              className="w-full py-3 border border-gold/30 text-gold hover:bg-gold/10 transition-all rounded font-bold uppercase tracking-widest text-xs"
-            >
-              Перезагрузить Эфир (Fix Stuck)
-            </button>
+            <div className="space-y-2">
+              <button 
+                onClick={() => setShowFixConfirm(true)}
+                className="w-full py-3 border border-gold/30 text-gold hover:bg-gold/10 transition-all rounded font-bold uppercase tracking-widest text-xs"
+              >
+                Перезагрузить Эфир (Fix Stuck)
+              </button>
+              <p className="text-[9px] text-sepia/50 italic text-center leading-relaxed">
+                🔧 Сбрасывает состояние «занято» трансмутации, если интерфейс завис во время синтеза. Ваши элементы, прогресс и баланс AiHim сохраняются. Используйте, если кнопка синтеза перестала работать.
+              </p>
+            </div>
 
             <p className="text-[10px] opacity-50 italic text-center">Путь алхимика бесконечен...</p>
           </div>
         </div>
+
+        {/* Reset Confirmation Modal */}
+        <AnimatePresence>
+          {showResetConfirm && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[500] flex items-center justify-center p-4 bg-ink/80 backdrop-blur-md"
+              onClick={() => setShowResetConfirm(false)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, y: 20 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 20 }}
+                className="parchment-card max-w-md w-full p-8 relative border-2 border-red-900/30"
+                onClick={e => e.stopPropagation()}
+              >
+                <button onClick={() => setShowResetConfirm(false)} className="absolute top-4 right-4 text-sepia/40 hover:text-sepia"><X size={20} /></button>
+                <div className="flex flex-col items-center text-center gap-6">
+                  <div className="w-20 h-20 rounded-full bg-red-900/10 flex items-center justify-center text-red-900 border border-red-900/20 shadow-xl">
+                    <AlertCircle size={40} />
+                  </div>
+                  <div>
+                    <div className="text-[10px] uppercase tracking-[0.3em] text-red-900 font-bold mb-1">Внимание! Опасная операция</div>
+                    <h2 className="font-gothic text-xl md:text-2xl tracking-widest text-sepia uppercase">Сбросить Вселенную</h2>
+                  </div>
+                  <div className="w-full h-px bg-sepia/10" />
+                  <div className="space-y-3 text-left w-full">
+                    <p className="text-sm text-sepia leading-relaxed">
+                      Эта операция <strong className="text-red-900">полностью уничтожит</strong> весь ваш прогресс:
+                    </p>
+                    <ul className="text-xs text-sepia/80 space-y-1 list-disc list-inside">
+                      <li>Все открытые элементы будут удалены</li>
+                      <li>История трансмутаций будет очищена</li>
+                      <li>Баланс AiHim сбросится до стартового</li>
+                      <li>Ранг и уровень вернутся к начальным</li>
+                    </ul>
+                    <p className="text-xs text-sepia/60 italic">
+                      Вы начнёте игру заново с базовыми элементами. Это действие невозможно отменить.
+                    </p>
+                  </div>
+                  <div className="flex gap-3 w-full">
+                    <button
+                      onClick={() => setShowResetConfirm(false)}
+                      className="flex-1 py-3 border border-sepia/20 text-sepia hover:bg-sepia/5 transition-all rounded font-bold uppercase tracking-widest text-xs"
+                    >
+                      Отмена
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowResetConfirm(false);
+                        onReset();
+                        window.location.reload();
+                      }}
+                      className="flex-1 py-3 bg-red-900 text-white hover:bg-red-800 transition-all rounded font-bold uppercase tracking-widest text-xs"
+                    >
+                      Уничтожить
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Fix Stuck Confirmation Modal */}
+        <AnimatePresence>
+          {showFixConfirm && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[500] flex items-center justify-center p-4 bg-ink/80 backdrop-blur-md"
+              onClick={() => setShowFixConfirm(false)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, y: 20 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 20 }}
+                className="parchment-card max-w-md w-full p-8 relative border-2 border-gold/30"
+                onClick={e => e.stopPropagation()}
+              >
+                <button onClick={() => setShowFixConfirm(false)} className="absolute top-4 right-4 text-sepia/40 hover:text-sepia"><X size={20} /></button>
+                <div className="flex flex-col items-center text-center gap-6">
+                  <div className="w-20 h-20 rounded-full bg-gold/10 flex items-center justify-center text-gold border border-gold/20 shadow-xl">
+                    <Zap size={40} />
+                  </div>
+                  <div>
+                    <div className="text-[10px] uppercase tracking-[0.3em] text-gold font-bold mb-1">Техническая операция</div>
+                    <h2 className="font-gothic text-xl md:text-2xl tracking-widest text-sepia uppercase">Перезагрузить Эфир</h2>
+                  </div>
+                  <div className="w-full h-px bg-sepia/10" />
+                  <div className="space-y-3 text-left w-full">
+                    <p className="text-sm text-sepia leading-relaxed">
+                      Эта операция <strong className="text-gold">безопасно перезагружает</strong> процесс синтеза:
+                    </p>
+                    <ul className="text-xs text-sepia/80 space-y-1 list-disc list-inside">
+                      <li>Сбрасывает зависшее состояние трансмутации</li>
+                      <li>Все элементы и прогресс сохраняются</li>
+                      <li>Баланс AiHim не изменяется</li>
+                      <li>Страница будет перезагружена</li>
+                    </ul>
+                    <p className="text-xs text-sepia/60 italic">
+                      Используйте, если кнопка «Трансмутировать» не реагирует или экран завис во время синтеза.
+                    </p>
+                  </div>
+                  <div className="flex gap-3 w-full">
+                    <button
+                      onClick={() => setShowFixConfirm(false)}
+                      className="flex-1 py-3 border border-sepia/20 text-sepia hover:bg-sepia/5 transition-all rounded font-bold uppercase tracking-widest text-xs"
+                    >
+                      Отмена
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowFixConfirm(false);
+                        localStorage.removeItem('aihim_is_combining');
+                        window.location.reload();
+                      }}
+                      className="flex-1 py-3 bg-gold text-white hover:bg-gold/80 transition-all rounded font-bold uppercase tracking-widest text-xs"
+                    >
+                      Перезагрузить
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </motion.div>
   );
