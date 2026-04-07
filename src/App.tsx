@@ -58,7 +58,8 @@ const MaintenanceWrapper: React.FC<{
   );
 };
 
-export default function App() {
+function AppContent() {
+  const { profile, loading, entryMode } = useAuth();
   const [discoveredElements, setDiscoveredElements] = useState<AlchemyElement[]>(() => {
     const saved = localStorage.getItem('aihim_elements');
     if (!saved) return INITIAL_ELEMENTS;
