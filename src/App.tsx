@@ -540,22 +540,18 @@ function AppContent() {
     );
   }
 
+  // Auth callback page - always accessible
+  if (location.pathname === '/auth/google/callback') {
+    return <GoogleCallbackPage />;
+  }
+
   // Browser mode without auth → show login
-  const isBrowserNoAuth = entryMode === 'browser' && !profile;
+  if (entryMode === 'browser' && !profile) {
+    return <BrowserLoginPage />;
+  }
 
   return (
     <div className="min-h-screen flex flex-col max-w-5xl mx-auto px-4 pb-24 md:pb-12 pt-6 overflow-y-auto">
-      {/* Auth routes - always accessible */}
-      <Routes location={location}>
-        <Route path="/auth/google/callback" element={<GoogleCallbackPage />} />
-        <Route path="*" element={
-          isBrowserNoAuth ? <BrowserLoginPage /> : null
-        } />
-      </Routes>
-      
-      {/* Skip rendering main app if showing login or callback */}
-      {(location.pathname === '/auth/google/callback' || isBrowserNoAuth) ? null : (
-        <>
 
       {/* Header Navigation - Always Visible on PC, Hidden on Mobile */}
       <header className="hidden md:flex flex-col md:flex-row items-center justify-between gap-4 relative z-[400] mb-8 pb-4 border-b border-sepia/10">
