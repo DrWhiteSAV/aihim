@@ -1135,8 +1135,6 @@ function AppContent() {
         </div>
       )}
     </AnimatePresence>
-        </>
-      )}
     </div>
   );
 }
