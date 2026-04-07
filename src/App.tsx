@@ -688,12 +688,14 @@ function AppContent() {
                     setHistory([]);
                     setIsCombining(false);
                     setAlchemyMessage(null);
-                    setAihim(1000000);
+                    setAihim(1000);
                     localStorage.clear();
                   }}
                 />
               </motion.div>
             } />
+
+            <Route path="/admin" element={<AdminPage />} />
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
