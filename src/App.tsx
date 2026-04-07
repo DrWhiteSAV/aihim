@@ -102,7 +102,7 @@ function AppContent() {
 
   const [aihim, setAihim] = useState<number>(() => {
     const saved = localStorage.getItem('aihim_energy');
-    return saved ? parseInt(saved) : 100;
+    return saved ? parseInt(saved) : 1000;
   });
 
   useEffect(() => {
