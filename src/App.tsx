@@ -60,6 +60,15 @@ const MaintenanceWrapper: React.FC<{
 
 function AppContent() {
   const { profile, loading, entryMode } = useAuth();
+
+  // Save referral code from URL
+  React.useEffect(() => {
+    const ref = new URLSearchParams(window.location.search).get('ref');
+    if (ref) {
+      sessionStorage.setItem('pending_ref', ref);
+      localStorage.setItem('pending_ref', ref);
+    }
+  }, []);
   const [discoveredElements, setDiscoveredElements] = useState<AlchemyElement[]>(() => {
     const saved = localStorage.getItem('aihim_elements');
     if (!saved) return INITIAL_ELEMENTS;
