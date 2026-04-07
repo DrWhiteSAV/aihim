@@ -1139,6 +1139,16 @@ function AppContent() {
         </div>
       )}
     </AnimatePresence>
+        </>
+      )}
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
