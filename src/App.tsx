@@ -528,8 +528,35 @@ function AppContent() {
     </nav>
   );
 
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-parchment">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-16 w-16 rounded-full border-4 border-gold/20 border-t-gold animate-spin" />
+          <p className="font-gothic text-gold text-lg">Загрузка...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Browser mode without auth → show login
+  const isBrowserNoAuth = entryMode === 'browser' && !profile;
+
   return (
     <div className="min-h-screen flex flex-col max-w-5xl mx-auto px-4 pb-24 md:pb-12 pt-6 overflow-y-auto">
+      {/* Auth routes - always accessible */}
+      <Routes location={location}>
+        <Route path="/auth/google/callback" element={<GoogleCallbackPage />} />
+        <Route path="*" element={
+          isBrowserNoAuth ? <BrowserLoginPage /> : null
+        } />
+      </Routes>
+      
+      {/* Skip rendering main app if showing login or callback */}
+      {(location.pathname === '/auth/google/callback' || isBrowserNoAuth) ? null : (
+        <>
+
       {/* Header Navigation - Always Visible on PC, Hidden on Mobile */}
       <header className="hidden md:flex flex-col md:flex-row items-center justify-between gap-4 relative z-[400] mb-8 pb-4 border-b border-sepia/10">
         <div 
