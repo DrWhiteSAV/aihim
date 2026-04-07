@@ -6,6 +6,10 @@ import { Bestiary } from './pages/Bestiary';
 import { Profile } from './pages/Profile';
 import { Arcana } from './pages/Arcana';
 import { Maintenance } from './pages/Maintenance';
+import { AdminPage } from './pages/Admin';
+import { BrowserLoginPage } from './pages/BrowserLogin';
+import { GoogleCallbackPage } from './pages/GoogleCallback';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import { ElementDetailsModal } from './components/ElementDetailsModal';
 import { ElementCard } from './components/ElementCard';
 import { VortexAnimation, MagicParticles, RareFlash } from './components/Animations';
@@ -54,7 +58,17 @@ const MaintenanceWrapper: React.FC<{
   );
 };
 
-export default function App() {
+function AppContent() {
+  const { profile, loading, entryMode } = useAuth();
+
+  // Save referral code from URL
+  React.useEffect(() => {
+    const ref = new URLSearchParams(window.location.search).get('ref');
+    if (ref) {
+      sessionStorage.setItem('pending_ref', ref);
+      localStorage.setItem('pending_ref', ref);
+    }
+  }, []);
   const [discoveredElements, setDiscoveredElements] = useState<AlchemyElement[]>(() => {
     const saved = localStorage.getItem('aihim_elements');
     if (!saved) return INITIAL_ELEMENTS;
@@ -97,7 +111,7 @@ export default function App() {
 
   const [aihim, setAihim] = useState<number>(() => {
     const saved = localStorage.getItem('aihim_energy');
-    return saved ? parseInt(saved) : 100;
+    return saved ? parseInt(saved) : 1000;
   });
 
   useEffect(() => {
@@ -523,8 +537,31 @@ export default function App() {
     </nav>
   );
 
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-parchment">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-16 w-16 rounded-full border-4 border-gold/20 border-t-gold animate-spin" />
+          <p className="font-gothic text-gold text-lg">Загрузка...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Auth callback page - always accessible
+  if (location.pathname === '/auth/google/callback') {
+    return <GoogleCallbackPage />;
+  }
+
+  // Browser mode without auth → show login
+  if (entryMode === 'browser' && !profile) {
+    return <BrowserLoginPage />;
+  }
+
   return (
     <div className="min-h-screen flex flex-col max-w-5xl mx-auto px-4 pb-24 md:pb-12 pt-6 overflow-y-auto">
+
       {/* Header Navigation - Always Visible on PC, Hidden on Mobile */}
       <header className="hidden md:flex flex-col md:flex-row items-center justify-between gap-4 relative z-[400] mb-8 pb-4 border-b border-sepia/10">
         <div 
@@ -660,12 +697,14 @@ export default function App() {
                     setHistory([]);
                     setIsCombining(false);
                     setAlchemyMessage(null);
-                    setAihim(1000000);
+                    setAihim(1000);
                     localStorage.clear();
                   }}
                 />
               </motion.div>
             } />
+
+            <Route path="/admin" element={<AdminPage />} />
 
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
@@ -1108,5 +1147,13 @@ export default function App() {
       )}
     </AnimatePresence>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
